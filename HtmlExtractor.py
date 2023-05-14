@@ -38,6 +38,8 @@ class HtmlExtractor(object):
         date_time = datetime.strptime(
             f'{date_str} {time_str}', '%Y-%m-%d %H:%M')
 
+        location = self.location
+
         raw_prices = self.price_pattern.findall(item_dict['가격'])
         comma_removed_prices = map(lambda raw: float(
             raw.replace(',', '')), raw_prices)
@@ -50,7 +52,7 @@ class HtmlExtractor(object):
         return Program(
             title=title,
             date_time=date_time,
-            location=self.location,
+            location=location,
             url=url,
             price_str=price_str,
         )
