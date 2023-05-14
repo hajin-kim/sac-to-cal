@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib import request
 from datetime import datetime
+from pytz import timezone
 import re
 
 from Program import Program
@@ -10,6 +11,7 @@ class HtmlExtractor(object):
     def __init__(self):
         self.date_pattern = re.compile(r'\d{4}-\d{2}-\d{2}')
         self.time_pattern = re.compile(r'\d{2}:\d{2}')
+        self.price_pattern = re.compile(r'\d[\d,]*')
         self.location = '예술의전당'
 
     def download_html_to_soup(self, url: str) -> BeautifulSoup:
@@ -35,11 +37,21 @@ class HtmlExtractor(object):
         date_time = datetime.strptime(
             f'{date_str} {time_str}', '%Y-%m-%d %H:%M')
 
+        raw_prices = self.price_pattern.findall(item_dict['가격'])
+        comma_removed_prices = map(lambda raw: float(
+            raw.replace(',', '')), raw_prices)
+        prices = list(map(lambda price: price/10000 if price >= 1000
+                          else price, comma_removed_prices))
+        min_price = min(prices)
+        max_price = max(prices)
+        price_str = f'{min_price}~{max_price}'
+
         return Program(
-            title,
-            date_time,
-            self.location,
-            url,
+            title=title,
+            date_time=date_time,
+            location=self.location,
+            url=url,
+            price_str=price_str,
         )
 
     def get_programs_from_urls(self, urls: list[str]) -> list[Program]:

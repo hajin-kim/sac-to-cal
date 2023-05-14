@@ -2,3 +2,4 @@ beautifulsoup4==4.12.2
 html5lib==1.1
 dependency-injector==4.41.0
 inputimeout==1.0.4
+pytz==2023.3

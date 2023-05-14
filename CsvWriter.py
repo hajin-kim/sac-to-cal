@@ -11,7 +11,7 @@ class CsvWriter(object):
             'location': '장소',
             'undefined1': '일행',
             'url': 'URL',
-            'undefined2': '예매/할인',
+            'price_str': '예매/할인',
             'undefined3': '관심곡',
             'undefined4': '추천',
             'undefined5': '아티스트',
