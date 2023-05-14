@@ -23,7 +23,8 @@ class HtmlExtractor(object):
 
         top_view = soup.find(attrs={'class': 'area show-view-top clearfix'})
 
-        title = top_view.find(attrs={'class': 'title'}).text.strip()
+        title = ' '.join(top_view.find(
+            attrs={'class': 'title'}).text.strip().replace('\n', ': ').split())
 
         items = top_view.find(name='dt').find(name='ul').find_all(name='li')
         item_dict = dict([
