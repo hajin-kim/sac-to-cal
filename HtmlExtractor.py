@@ -44,5 +44,5 @@ class HtmlExtractor(object):
 
     def get_programs_from_urls(self, urls: list[str]) -> list[Program]:
         return list(map(
-            lambda url: self.get_program_from_url(url), urls
+            self.get_program_from_url, urls
         ))
