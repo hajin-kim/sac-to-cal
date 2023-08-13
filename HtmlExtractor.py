@@ -44,14 +44,25 @@ class HtmlExtractor(object):
 
         location = self.location
 
-        raw_prices = self.price_pattern.findall(item_dict["가격"])
-        comma_removed_prices = map(lambda raw: float(raw.replace(",", "")), raw_prices)
-        prices = list(
-            map(
-                lambda price: price / 10000 if price >= 1000 else price,
-                comma_removed_prices,
+        price_str = ""
+        if "가격" in item_dict:
+            raw_prices = self.price_pattern.findall(item_dict["가격"])
+            comma_removed_prices = map(
+                lambda raw: float(raw.replace(",", "")), raw_prices
             )
-        )
+            prices = list(
+                map(
+                    lambda price: price / 10000 if price >= 1000 else price,
+                    comma_removed_prices,
+                )
+            )
+
+            if len(prices) > 0:
+                min_price = min(prices)
+                max_price = max(prices)
+                price_str = f"{min_price}~{max_price}"
+
+        print(f"Extracted {url}")
 
         return Program(
             title=title,
