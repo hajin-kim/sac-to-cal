@@ -8,6 +8,7 @@ class CsvWriter(object):
         self.field_header_dict = {
             "title": "제목",
             "date_time": "일정",
+            "date_range": "일정",
             "location": "장소",
             "undefined1": "일행",
             "url": "URL",

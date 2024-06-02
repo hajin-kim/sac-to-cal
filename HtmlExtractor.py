@@ -37,10 +37,20 @@ class HtmlExtractor(object):
             ]
         )
 
-        date_str = self.date_pattern.findall(item_dict["기간"])[0]
-        time_str = self.time_pattern.findall(item_dict["시간"])[0]
+        date_time = None
+        date_range = None
 
-        date_time = datetime.strptime(f"{date_str} {time_str}", "%Y-%m-%d %H:%M")
+        date_strs = self.date_pattern.findall(item_dict["기간"])
+        if len(date_strs) == 1:
+            date_str = date_strs[0]
+            time_str = self.time_pattern.findall(item_dict["시간"])[0]
+            date_time = datetime.strptime(
+                f"{date_str} {time_str}", "%Y-%m-%d %H:%M")
+        elif len(date_strs) == 2:
+            date_range = list(map(
+                lambda date_str: datetime.strptime(date_str, "%Y-%m-%d"), date_strs))
+        else:
+            raise ValueError("Invalid date format")
 
         location = self.location
 
@@ -67,6 +77,7 @@ class HtmlExtractor(object):
         return Program(
             title=title,
             date_time=date_time,
+            date_range=date_range,
             location=location,
             url=url,
             price_str=price_str,

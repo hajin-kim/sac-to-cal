@@ -13,7 +13,15 @@ class NotionApiClient(object):
             self.post(program)
 
     def post(self, program: Program):
+        date = {
+            "start": program.date_time.strftime("%Y-%m-%dT%H:%M:%S+09:00"),
+        } if program.date_time else {
+            "start": program.date_range[0].strftime("%Y-%m-%d"),
+            "end": program.date_range[1].strftime("%Y-%m-%d"),
+        }
+
         parent = {"database_id": self.databaseId}
+
         properties = {
             "제목": {
                 "title": [
@@ -21,8 +29,7 @@ class NotionApiClient(object):
                         "text": {
                             "content": program.title}}]},
             "일정": {
-                "date": {
-                    "start": program.date_time.strftime("%Y-%m-%dT%H:%M:%S+09:00")}},
+                "date": date},
             "장소": {
                 "rich_text": [
                     {
