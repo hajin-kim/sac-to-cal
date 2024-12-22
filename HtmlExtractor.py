@@ -70,7 +70,9 @@ class HtmlExtractor(object):
             if len(prices) > 0:
                 min_price = min(prices)
                 max_price = max(prices)
-                price_str = f"{min_price}~{max_price}"
+                price_str = f"{min_price}~{max_price}" if min_price != max_price else str(
+                    min_price
+                )
 
         print(f"Extracted {url}")
 
