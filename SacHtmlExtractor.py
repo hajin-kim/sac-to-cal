@@ -6,7 +6,7 @@ import re
 from Program import Program
 
 
-class HtmlExtractor(object):
+class SacHtmlExtractor(object):
     def __init__(self):
         self.date_pattern = re.compile(r"\d{4}-\d{2}-\d{2}")
         self.time_pattern = re.compile(r"\d{2}:\d{2}")
