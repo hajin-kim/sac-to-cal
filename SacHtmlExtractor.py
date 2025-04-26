@@ -30,12 +30,15 @@ class SacHtmlExtractor(object):
         )
 
         items = top_view.find(name="dt").find(name="ul").find_all(name="li")
-        item_dict = dict(
-            [
-                map(lambda x: x.text.strip(), list_item.find_all(name="span"))
-                for list_item in items
-            ]
+        spans_list = [
+            list(map(lambda x: x.text.strip(), list_item.find_all(name="span")))
+            for list_item in items
+        ]
+        item_pairs = filter(
+            lambda x: len(x) == 2,
+            spans_list,
         )
+        item_dict = dict(item_pairs)
 
         date_time = None
         date_range = None
