@@ -32,13 +32,16 @@ class LotteHtmlExtractor(object):
         )
 
         items = top_view.find_all(attrs={"class": "show_guide clfix"})
-        item_dict = dict(
-            [
-                filter(lambda x: x != "", map(
-                    self.to_stripped_text, list_item.children))
-                for list_item in items
-            ]
+        children_list = [
+            list(filter(lambda x: x != "", map(
+                self.to_stripped_text, list_item.children)))
+            for list_item in items
+        ]
+        item_pairs = filter(
+            lambda x: len(x) == 2,
+            children_list,
         )
+        item_dict = dict(item_pairs)
 
         date_time = None
         date_range = None
